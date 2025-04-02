@@ -1,0 +1,7 @@
+FastAPI
+uvicorn
+pydantic
+sqlalchemy
+pytest
+pytest-asyncio
+asyncpg

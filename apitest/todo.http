@@ -1,0 +1,28 @@
+@id=1
+
+### Create a new Todo
+POST http://127.0.0.1:5000/api/todos
+Content-Type: application/json
+
+{
+  "title": "Test Todo",
+  "description": "This is a test todo"
+}
+
+### Get all Todos
+GET http://127.0.0.1:5000/api/todos
+
+### Get a Todo (replace {id} with the actual ID)
+GET http://127.0.0.1:5000/api/todos/{{id}}
+
+### Update a Todo (replace {id} with the actual ID)
+PUT http://127.0.0.1:5000/api/todos/{{id}}
+Content-Type: application/json
+
+{
+  "title": "Updated Todo",
+  "description": "Updated description"
+}
+
+### Delete a Todo (replace {id} with the actual ID)
+DELETE http://127.0.0.1:5000/api/todos/{{id}}
