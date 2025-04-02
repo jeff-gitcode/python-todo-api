@@ -22,6 +22,43 @@ mediator.register(GetTodoQuery, GetTodoHandler(repository))
 
 @todo_controller.route('/todos', methods=['POST'])
 def create_todo():
+    """
+    Create a new Todo
+    ---
+    tags:
+      - Todos
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              example: "Test Todo"
+            description:
+              type: string
+              example: "This is a test todo"
+    responses:
+      201:
+        description: Todo created successfully
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            title:
+              type: string
+              example: "Test Todo"
+            description:
+              type: string
+              example: "This is a test todo"
+            completed:
+              type: boolean
+              example: false
+    """
     data = request.json
     command = CreateTodoCommand(title=data['title'], description=data.get('description'))
     todo = mediator.send(command)
@@ -45,10 +82,46 @@ def get_todos():
 
 @todo_controller.route('/todos/<int:todo_id>', methods=['GET'])
 def get_todo_by_id(todo_id):
-    # Use a query to fetch the todo by ID
+    """
+    Get a Todo by ID
+    ---
+    tags:
+      - Todos
+    parameters:
+      - name: todo_id
+        in: path
+        required: true
+        type: integer
+        example: 1
+    responses:
+      200:
+        description: Todo retrieved successfully
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            title:
+              type: string
+              example: "Test Todo"
+            description:
+              type: string
+              example: "This is a test todo"
+            completed:
+              type: boolean
+              example: false
+      404:
+        description: Todo not found
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Todo not found"
+    """
     query = GetTodoQuery(todo_id=todo_id)
     todo = mediator.send(query)
-    print("todo", todo)
     if not todo:
         return jsonify({"error": "Todo not found"}), 404
     return jsonify({
@@ -60,18 +133,73 @@ def get_todo_by_id(todo_id):
 
 @todo_controller.route('/todos/<int:todo_id>', methods=['PUT'])
 def update_todo(todo_id):
-    # Parse request data
+    """
+    Update a Todo
+    ---
+    tags:
+      - Todos
+    parameters:
+      - name: todo_id
+        in: path
+        required: true
+        type: integer
+        example: 1
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              example: "Updated Todo"
+            description:
+              type: string
+              example: "Updated description"
+    responses:
+      200:
+        description: Todo updated successfully
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            title:
+              type: string
+              example: "Updated Todo"
+            description:
+              type: string
+              example: "Updated description"
+            completed:
+              type: boolean
+              example: false
+      400:
+        description: Invalid input
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Invalid input"
+      404:
+        description: Todo not found
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Todo not found"
+    """
     data = request.json
     if not data or 'title' not in data or 'description' not in data:
         return jsonify({"error": "Invalid input"}), 400
 
-    # Use a command to update the todo
     command = UpdateTodoCommand(todo_id=todo_id, title=data['title'], description=data['description'])
     try:
         updated_todo = mediator.send(command)
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
-
     return jsonify({
         "id": updated_todo.id,
         "title": updated_todo.title,
@@ -81,6 +209,29 @@ def update_todo(todo_id):
 
 @todo_controller.route('/todos/<int:todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
+    """
+    Delete a Todo
+    ---
+    tags:
+      - Todos
+    parameters:
+      - name: todo_id
+        in: path
+        required: true
+        type: integer
+        example: 1
+    responses:
+      204:
+        description: Todo deleted successfully
+      404:
+        description: Todo not found
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "Todo not found"
+    """
     command = DeleteTodoCommand(todo_id=todo_id)
     try:
         mediator.send(command)
