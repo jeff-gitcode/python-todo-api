@@ -85,9 +85,61 @@ Error handling is implemented in `app/presentation/error_handler.py` and registe
 
 ## Testing
 
-To run the tests, use:
-```
+This project uses `pytest` for testing. Follow these steps to run the tests:
+
+### Run All Tests
+To run all tests, execute the following command:
+```bash
 pytest app/tests
+```
+
+### Run a Specific Test
+To run a specific test, specify the test file and test function:
+```bash
+pytest app/tests/test_commands.py::test_create_todo_command
+```
+
+### Measure Test Coverage
+To measure test coverage, install the `pytest-cov` plugin:
+```bash
+pip install pytest-cov
+```
+
+Then, run the tests with coverage:
+```bash
+pytest --cov=app --cov-report=term-missing
+```
+
+- `--cov=app`: Measures coverage for the `app` directory.
+- `--cov-report=term-missing`: Displays a report in the terminal, showing which lines are not covered.
+
+### Generate an HTML Coverage Report
+To generate an HTML report for better visualization:
+```bash
+pytest --cov=app --cov-report=html
+```
+
+This will create an `htmlcov` directory. Open `htmlcov/index.html` in your browser to view the detailed coverage report.
+
+### Example Output
+When running `pytest --cov=app --cov-report=term-missing`, you might see output like this:
+```
+---------- coverage: platform win32, python 3.10 ----------
+Name                                      Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------------
+app/__init__.py                               0      0   100%
+app/application/commands/create_todo.py      12      0   100%
+app/application/commands/delete_todo.py      11      0   100%
+app/application/commands/update_todo.py      12      0   100%
+app/application/queries/get_todo.py          11      0   100%
+app/application/queries/get_todos.py          8      0   100%
+app/domain/entities.py                       12      0   100%
+app/domain/interfaces.py                     18      0   100%
+app/infrastructure/todo_repository.py        30      0   100%
+app/main.py                                  14      2    86%   20-21
+app/presentation/controllers/todo_controller.py  60      5    92%   45-50
+-----------------------------------------------------------------------
+TOTAL                                       270      7    97%
 ```
 
 ## How to Use
