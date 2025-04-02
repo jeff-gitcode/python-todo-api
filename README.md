@@ -55,6 +55,18 @@ todo-api/
 - **In-Memory Repository**: A simple in-memory implementation for managing todos.
 - **Global Error Handling**: Centralized error handling for consistent API responses.
 
+## Tech Stack
+
+The following technologies and libraries are used in this project:
+
+- **Python**: The core programming language used for the application.
+- **Flask**: A lightweight WSGI web application framework for building the API.
+- **FastAPI** (optional): Some parts of the project (e.g., `routes.py`) demonstrate usage with FastAPI.
+- **Pytest**: A testing framework for writing and running unit tests.
+- **SQLAlchemy** (commented out): A database toolkit and ORM (optional, for future database integration).
+- **In-Memory Repository**: A simple in-memory implementation for managing todos.
+- **CQRS and Mediator Patterns**: Architectural patterns for separating read and write operations and centralizing command/query handling.
+
 ## API Endpoints
 
 - `POST /api/todos`: Create a new todo item.
