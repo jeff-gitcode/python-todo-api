@@ -162,6 +162,12 @@ TOTAL                                       270      7    97%
 
 4. Use the `apitest/todo.http` file with the REST Client extension in VS Code to test the API.
 
+5. Access Swagger UI
+Open your browser and navigate to:
+```
+http://127.0.0.1:5000/apidocs
+```
+
 ## License
 
 This project is licensed under the MIT License.

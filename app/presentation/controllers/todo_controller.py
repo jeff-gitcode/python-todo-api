@@ -6,6 +6,7 @@ from app.application.commands.update_todo import UpdateTodoCommand, UpdateTodoHa
 from app.application.queries.get_todo import GetTodoHandler, GetTodoQuery
 from app.application.queries.get_todos import GetTodosQuery, GetTodosHandler
 from app.infrastructure.todo_repository import InMemoryTodoRepository
+from app.presentation.decorators import token_required
 
 todo_controller = Blueprint('todo_controller', __name__)
 
@@ -21,6 +22,7 @@ mediator.register(DeleteTodoCommand, DeleteTodoHandler(repository))
 mediator.register(GetTodoQuery, GetTodoHandler(repository))
 
 @todo_controller.route('/todos', methods=['POST'])
+@token_required
 def create_todo():
     """
     Create a new Todo
@@ -70,6 +72,7 @@ def create_todo():
     }), 201
 
 @todo_controller.route('/todos', methods=['GET'])
+@token_required
 def get_todos():
     query = GetTodosQuery()
     todos = mediator.send(query)
@@ -81,6 +84,7 @@ def get_todos():
     } for todo in todos]), 200
 
 @todo_controller.route('/todos/<int:todo_id>', methods=['GET'])
+@token_required
 def get_todo_by_id(todo_id):
     """
     Get a Todo by ID
@@ -132,6 +136,7 @@ def get_todo_by_id(todo_id):
     }), 200
 
 @todo_controller.route('/todos/<int:todo_id>', methods=['PUT'])
+@token_required
 def update_todo(todo_id):
     """
     Update a Todo
@@ -208,6 +213,7 @@ def update_todo(todo_id):
     }), 200
 
 @todo_controller.route('/todos/<int:todo_id>', methods=['DELETE'])
+@token_required
 def delete_todo(todo_id):
     """
     Delete a Todo

@@ -2,6 +2,11 @@ import pytest
 from app.main import apps  # Import the Flask app from your main module
 
 
+@pytest.fixture(scope="session", autouse=True)
+def configure_asyncio_default_fixture_loop_scope():
+    pytest.asyncio_default_fixture_loop_scope = "function"
+
+
 @pytest.fixture
 def client():
     # Use Flask's test client for integration testing

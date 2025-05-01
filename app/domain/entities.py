@@ -11,3 +11,9 @@ class Todo:
     def update(self, title: str, description: str):
         self.title = title
         self.description = description
+        
+class User:
+    def __init__(self, id: int, username: str, password_hash: str):
+        self.id = id
+        self.username = username
+        self.password_hash = password_hash        

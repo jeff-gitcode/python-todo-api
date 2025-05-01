@@ -10,8 +10,10 @@ sys.path.append(routePath)
 
 from app.presentation.error_handler import handle_exceptions
 from app.presentation.controllers.todo_controller import todo_controller
+from app.presentation.controllers.auth_controller import auth_controller
 
 apps = Flask(__name__)
+apps.register_blueprint(auth_controller, url_prefix='/api')
 apps.register_blueprint(todo_controller, url_prefix='/api')
 
 # Register global error handlers
